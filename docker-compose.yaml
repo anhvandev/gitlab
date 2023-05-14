@@ -1,18 +1,35 @@
-version: '3.6'
+# docker-compose.yml
+version: '3.7'
 services:
   web:
-    image: 'gitlab/gitlab-ee:latest'
+    image: 'gitlab/gitlab-ce:latest'
     restart: always
-    hostname: 'source.sudox.app'
+    hostname: 'localhost'
+    container_name: gitlab-ce
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://source.sudox.app:8929'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+        external_url 'https://source.sudox.app'
     ports:
-      - '8929:8929'
-      - '2224:22'
+      - '8080:80'
+      - '8443:443'
     volumes:
-      - '~/gitlab/config:/etc/gitlab'
-      - '~/gitlab/logs:/var/log/gitlab'
-      - '~/gitlab/data:/var/opt/gitlab'
-    shm_size: '256m'
+      - '$GITLAB_HOME/config:/etc/gitlab'
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'
+    networks:
+      - gitlab
+  gitlab-runner:
+    image: gitlab/gitlab-runner:alpine
+    container_name: gitlab-runner
+    restart: always
+    depends_on:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - '$GITLAB_HOME/gitlab-runner:/etc/gitlab-runner'
+    networks:
+      - gitlab
+
+networks:
+  gitlab:
+    name: gitlab-network
