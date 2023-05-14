@@ -13,9 +13,9 @@ services:
       - '8080:80'
       - '8443:443'
     volumes:
-      - '$GITLAB_HOME/config:/etc/gitlab'
-      - '$GITLAB_HOME/logs:/var/log/gitlab'
-      - '$GITLAB_HOME/data:/var/opt/gitlab'
+      - '~/gitlab/config:/etc/gitlab'
+      - '~/gitlab/logs:/var/log/gitlab'
+      - '~/gitlab/data:/var/opt/gitlab'
     networks:
       - gitlab
   gitlab-runner:
@@ -26,7 +26,7 @@ services:
       - web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - '$GITLAB_HOME/gitlab-runner:/etc/gitlab-runner'
+      - '~/gitlab/gitlab-runner:/etc/gitlab-runner'
     networks:
       - gitlab
 
