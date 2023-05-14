@@ -2,7 +2,7 @@
 version: '3.7'
 services:
   web:
-    image: 'yrzr/gitlab-ce-arm64v8:latest'
+    image: 'zengxs/gitlab:ce'
     restart: always
     hostname: 'source.sudox.app'
     container_name: gitlab-ce-arm64
