@@ -8,7 +8,7 @@ services:
     container_name: gitlab-ce-arm64
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://source.sudox.app'
+        external_url 'https://source.sudox.app'
     ports:
       - '2204:22'
       - '8080:80'
